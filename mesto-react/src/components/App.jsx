@@ -1,4 +1,3 @@
-
 import '../pages/index.css';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
@@ -12,14 +11,15 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddMestoPopupOpen, setIsAddMestoPopupOpen] = useState(false);
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
-  const [isShowMestoPopupOpen, setIsShowMestoPopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState({});
 
   function closeAllPopups() {
     setIsUpdateAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddMestoPopupOpen(false);
     setIsDeleteMestoPopupOpen(false);
-    setIsShowMestoPopupOpen(false)
+    setSelectedCard({})
   }
 
   function handleUpdateAvatarPopup() {
@@ -38,9 +38,6 @@ function App() {
     setIsDeleteMestoPopupOpen(true)
   }
 
-  function handleShowMestoPopup() {
-    setIsShowMestoPopupOpen(true)
-  }
 
   return (
     <>
@@ -51,7 +48,7 @@ function App() {
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
         onMestoDelete={handleDeleteMestoPopup}
-        onMestoShow={handleShowMestoPopup}
+        onMestoShow={setSelectedCard}
       />
       <Footer />
       <PopupWithForm
@@ -121,24 +118,9 @@ function App() {
 
       <ImagePopup
         popupType={'delete-mesto'}
-        isOpen={isShowMestoPopupOpen}
         onClose={closeAllPopups}
+        card={selectedCard}
       />
-
-
-      <template id="element_template">
-        <div className="element">
-          <button aria-label="Delete card" className="element__del-button" type="button"></button>
-          <img id="image-element" className="element__image" src="#" alt="#" />
-          <div className="element__container">
-            <h2 id="element-name" className="element__title"></h2>
-            <div className="element__like-container">
-              <button aria-label="Like" className="element__like-button" id="like" type="button"></button>
-              <p className="element__like-counter"></p>
-            </div>
-          </div>
-        </div>
-      </template>
 
     </>
   );

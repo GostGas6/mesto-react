@@ -1,7 +1,8 @@
 function Footer() {
+    const currentYear = new Date().getFullYear()
     return ((
         <footer className="footer">
-            <p>© 2023 Mesto Russia</p>
+            <p>© {currentYear} Mesto Russia</p>
         </footer>
     ))
 }
