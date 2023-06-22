@@ -1,7 +1,7 @@
 // import avatar from '../images/avatar.png';
 import { useEffect, useState } from 'react';
 import Api from '../utils/Api';
-import Card from './Card';
+import Card from './Card.jsx';
 
 
 function Main({

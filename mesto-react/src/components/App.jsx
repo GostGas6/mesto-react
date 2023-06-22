@@ -38,7 +38,6 @@ function App() {
     setIsDeleteMestoPopupOpen(true)
   }
 
-
   return (
     <>
 
@@ -77,12 +76,12 @@ function App() {
 
         <div className="popup__input-section">
           <input placeholder="Введите имя" className="popup__input" type="text" name="name" id="popup_name"
-            minlength="2" maxlength="40" required />
+            minLength="2" maxLength="40" required />
           <span className="popup__error"></span>
         </div>
         <div className="popup__input-section">
           <input placeholder="О себе" className="popup__input" type="text" name="about" id="popup_about"
-            minlength="2" maxlength="200" required />
+            minLength="2" maxLength="200" required />
           <span className="popup__error"></span>
         </div>
 
@@ -97,12 +96,12 @@ function App() {
       >
         <div className="popup__input-section">
           <input placeholder="Название" className="popup__input" type="text" name="name" id="popup_place"
-            minlength="2" maxlength="30" required />
+            minLength="2" maxLength="40" required />
           <span className="popup__error"></span>
         </div>
         <div className="popup__input-section">
           <input placeholder="Ссылка на картинку" className="popup__input" type="url" name="link" id="popup_link"
-            minlength="2" maxlength="200" required />
+            minLength="2" maxLength="200" required />
           <span className="popup__error"></span>
         </div>
 
@@ -117,9 +116,9 @@ function App() {
       />
 
       <ImagePopup
-        popupType={'delete-mesto'}
-        onClose={closeAllPopups}
+        popupType={'show-mesto'}
         card={selectedCard}
+        onClose={closeAllPopups}
       />
 
     </>
