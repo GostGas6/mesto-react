@@ -3,8 +3,11 @@ import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import ImagePopup from './ImagePopup.jsx';
-import { useState } from 'react';
 import PopupWithForm from './PopupWithForm.jsx';
+import { useEffect, useState } from 'react';
+import { CurrentUserContext } from '../context/CurrentUserContext';
+import Api from '../utils/Api.js';
+import EditProfilePopup from './EditProfilePopup.jsx';
 
 function App() {
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = useState(false);
@@ -13,6 +16,22 @@ function App() {
   const [isDeleteMestoPopupOpen, setIsDeleteMestoPopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({});
+  const [user, setUser] = useState({});
+  const [initialCards, setInitialCards] = useState([]);
+
+  useEffect(() => {
+    Promise.all([Api.getProfile(), Api.getCard()])
+      .then(([userInfo, cards]) => {
+        setUser({
+          id: userInfo._id,
+          name: userInfo.name,
+          job: userInfo.about,
+          avatar: userInfo.avatar
+        });
+        setInitialCards(cards);
+      })
+      .catch(console.log);
+  }, [])
 
   function closeAllPopups() {
     setIsUpdateAvatarPopupOpen(false);
@@ -34,21 +53,51 @@ function App() {
     setIsAddMestoPopupOpen(true)
   }
 
-  function handleDeleteMestoPopup() {
-    setIsDeleteMestoPopupOpen(true)
+  function handleLikeClick(card) {
+    Api.likeCard(card._id)
+      .then((newCard) => {
+        setInitialCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+      })
+      .catch(console.log)
   }
 
+  function handleDislikeClick(card) {
+    Api.dislikeCard(card._id)
+      .then((newCard) => {
+        setInitialCards((state) => state.map(c => c._id === card._id ? newCard : c))
+      })
+      .catch(console.log)
+  }
+
+  function handleDeleteMesto(card) {
+    Api.deleteCard(card._id).then(() => {
+      setInitialCards((state) => state.filter(c => c._id !== (card._id)))
+    })
+      .catch(console.log)
+  }
+
+  function handleProfileUpdate(info) {
+    Api.setUserInfo(info)
+      .then(data => {
+        setUser(data);
+        closeAllPopups()
+      }
+      )
+      .catch(console.log)
+  }
 
   return (
-    <>
-
+    <CurrentUserContext.Provider value={user}>
       <Header />
       <Main
         onUserAvatarEdit={handleUpdateAvatarPopup}
         onUserProfileEdit={handleEditProfilePopup}
         onMestoAdd={handleAddMestoPopup}
-        onMestoDelete={handleDeleteMestoPopup}
+        onMestoDelete={handleDeleteMesto}
         onMestoShow={setSelectedCard}
+        onMestoLike={handleLikeClick}
+        onMestoDislike={handleDislikeClick}
+        cards={initialCards}
       />
       <Footer />
       <PopupWithForm
@@ -67,26 +116,11 @@ function App() {
 
       </PopupWithForm>
 
-      <PopupWithForm
-        popupType={'edit-profile'}
-        popupTitle={'Редактировать профиль'}
-        submitText={'Сохранить'}
+      <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-
-        <div className="popup__input-section">
-          <input placeholder="Введите имя" className="popup__input" type="text" name="name" id="popup_name"
-            minLength="2" maxLength="40" required />
-          <span className="popup__error"></span>
-        </div>
-        <div className="popup__input-section">
-          <input placeholder="О себе" className="popup__input" type="text" name="about" id="popup_about"
-            minLength="2" maxLength="200" required />
-          <span className="popup__error"></span>
-        </div>
-
-      </PopupWithForm>
+        onUpdate={handleProfileUpdate}
+      />
 
       <PopupWithForm
         popupType={'add-mesto'}
@@ -122,7 +156,7 @@ function App() {
         onClose={closeAllPopups}
       />
 
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 

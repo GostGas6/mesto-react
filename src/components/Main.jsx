@@ -1,7 +1,9 @@
 // import avatar from '../images/avatar.png';
-import { useEffect, useState } from 'react';
-import Api from '../utils/Api';
 import Card from './Card.jsx';
+import { CurrentUserContext } from '../context/CurrentUserContext.jsx';
+import { useContext } from "react";
+import { useState } from 'react';
+
 
 
 function Main({
@@ -9,44 +11,36 @@ function Main({
     onUserProfileEdit,
     onMestoAdd,
     onMestoDelete,
-    onMestoShow
+    onMestoShow,
+    onMestoLike,
+    onMestoDislike,
+    cards
 }) {
     const [user, setUser] = useState({});
     const [initialCards, setInitialCards] = useState([]);
-
-    useEffect(() => {
-        Promise.all([Api.getProfile(), Api.getCard()])
-            .then(([userInfo, cards]) => {
-                setUser({
-                    id: userInfo._id,
-                    name: userInfo.name,
-                    job: userInfo.about,
-                    avatar: userInfo.avatar
-                });
-                setInitialCards(cards);
-            })
-            .catch(console.log);
-    }, [])
+    const currentUser = useContext(CurrentUserContext);
 
     return ((
         <main>
             <section className="profile">
                 <div onClick={onUserAvatarEdit} className="profile__avatar-overlay"></div>
-                <img className="profile__avatar" src={user.avatar} alt="Аватар профиля" />
+                <img className="profile__avatar" src={currentUser.avatar ?? '#'} alt="Аватар профиля" />
                 <div className="profile__info">
-                    <h1 className="profile__title">{user.name}</h1>
+                    <h1 className="profile__title">{currentUser.name ?? 'Ильсур Гарипов'}</h1>
                     <button onClick={onUserProfileEdit} aria-label="Edit profile" className="profile__edit-button" type="button"></button>
-                    <p className="profile__subtitle">{user.job}</p>
+                    <p className="profile__subtitle">{currentUser.job ?? 'Студент Я.Практикума'}</p>
                 </div>
                 <button onClick={onMestoAdd} aria-label="Add" className="profile__add-button" type="button"></button>
             </section>
             <section className="elements">
-                {initialCards.map((mesto) => (
+                {cards.map((mesto) => (
                     <Card
                         key={mesto._id}
                         card={mesto}
                         onShow={onMestoShow}
                         onDelete={onMestoDelete}
+                        onLike={onMestoLike}
+                        onDislike={onMestoDislike}
                     />
                 ))}
             </section>
