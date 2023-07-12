@@ -11,26 +11,29 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
     };
 
-    getProfile() {
+    getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
         }).then(this._isResultOk)
     };
 
-    patchProfile(data) {
+    setUserInfo({name, about}) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                name: name,
+                about: about
+              })
         }).then(this._isResultOk)
     };
 
-    setUserAvatar({ link }) {
+    setUserAvatar({ avatar }) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
-                avatar: link
+                avatar: avatar
             })
         }).then(this._isResultOk)
     };
@@ -42,7 +45,7 @@ class Api {
     };
 
 
-    postCard(data) {
+    createMesto(data) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
@@ -57,14 +60,14 @@ class Api {
         }).then(this._isResultOk)
     }
 
-    like(cardId) {
+    likeCard(cardId) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: this._headers
         }).then(this._isResultOk)
     }
 
-    dislike(cardId) {
+    dislikeCard(cardId) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
             headers: this._headers
