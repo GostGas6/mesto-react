@@ -5,7 +5,7 @@ import Footer from './Footer.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import { useEffect, useState } from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext';
-import api from '../utils/Api.js';
+import api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
 import AddMestoPopup from './AddMestoPopup.jsx';
@@ -26,12 +26,7 @@ function App() {
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCard()])
       .then(([userInfo, cards]) => {
-        setUser({
-          id: userInfo._id,
-          name: userInfo.name,
-          job: userInfo.about,
-          avatar: userInfo.avatar
-        });
+        setUser(userInfo);
         setInitialCards(cards);
       })
       .catch(console.log)

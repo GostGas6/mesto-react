@@ -32,12 +32,14 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdate, processSta
 
             <div className="popup__input-section">
                 <input placeholder="Введите имя" className="popup__input" type="text" name="name" id="popup_name"
-                    minLength="2" maxLength="40" required />
+                    minLength="2" maxLength="40" required value={name || ''}
+                    onChange={(event) => setName(event.target.value)} />
                 <span className="popup__error"></span>
             </div>
             <div className="popup__input-section">
-                <input placeholder="О себе" className="popup__input" type="text" name="about" id="popup_about"
-                    minLength="2" maxLength="200" required />
+                <input placeholder="О себе" className="popup__input" type="text" name="job" id="popup_about"
+                    minLength="2" maxLength="200" required value={job || ''}
+                    onChange={(event) => setJob(event.target.value)} />
                 <span className="popup__error"></span>
             </div>
         </PopupWithForm>

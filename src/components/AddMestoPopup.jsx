@@ -29,14 +29,16 @@ export default function AddMestoPopup({ isOpen, onClose, onSubmit, processStatus
         >
             <div className="popup__input-section">
                 <input placeholder="Название" className="popup__input" type="text" name="name" id="popup_place"
-                    minLength="2" maxLength="40" required value={name || ''} onChange={(event) => setName(event.target.value)} />
+                    minLength="2" maxLength="40" required
+                    value={name || ''} onChange={(event) => setName(event.target.value)} />
                 <span className="popup__error"></span>
             </div>
             <div className="popup__input-section">
                 <input placeholder="Ссылка на картинку" className="popup__input" type="url" name="link" id="popup_link"
-                    minLength="2" maxLength="200" required />
+                    minLength="2" maxLength="200" required
+                    value={link || ''} onChange={(event) => setLink(event.target.value)}/>
                 <span className="popup__error"></span>
-            </div>
+            </div>  
 
         </PopupWithForm>
     )

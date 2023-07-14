@@ -24,9 +24,9 @@ function Main({
                 <div onClick={onUserAvatarEdit} className="profile__avatar-overlay"></div>
                 <img className="profile__avatar" src={currentUser ? currentUser.avatar : '#'} alt="Аватар профиля" />
                 <div className="profile__info">
-                    <h1 className="profile__title">{currentUser ? currentUser.name : 'Ильсур'}</h1>
+                    <h1 className="profile__title">{currentUser ? currentUser.name : 'Ильсур Гарипов'}</h1>
                     <button onClick={onUserProfileEdit} aria-label="Edit profile" className="profile__edit-button" type="button"></button>
-                    <p className="profile__subtitle">{currentUser ? currentUser.job : 'Студент Я.Практикума'}</p>
+                    <p className="profile__subtitle">{currentUser ? currentUser.about : 'Студент Яндекса'}</p>
                 </div>
                 <button onClick={onMestoAdd} aria-label="Add" className="profile__add-button" type="button"></button>
             </section>
