@@ -1,4 +1,3 @@
-// import avatar from '../images/avatar.png';
 import Card from './Card.jsx';
 import { CurrentUserContext } from '../context/CurrentUserContext.jsx';
 import { useContext } from "react";
