@@ -5,7 +5,7 @@ import Footer from './Footer.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import { useEffect, useState } from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext';
-import api from '../utils/api.js';
+import api from '../utils/api';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
 import AddMestoPopup from './AddMestoPopup.jsx';
