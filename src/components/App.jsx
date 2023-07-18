@@ -5,7 +5,7 @@ import Footer from './Footer.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import { useEffect, useState } from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext';
-import api from '../utils/api';
+import Api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
 import AddMestoPopup from './AddMestoPopup.jsx';
@@ -24,7 +24,7 @@ function App() {
   const [cardToDelete, setCardToDelete] = useState(null);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCard()])
+    Promise.all([Api.getUserInfo(), Api.getCard()])
       .then(([userInfo, cards]) => {
         setUser(userInfo);
         setInitialCards(cards);
@@ -53,7 +53,7 @@ function App() {
   }
 
   function handleLikeClick(card) {
-    api.likeCard(card._id)
+    Api.likeCard(card._id)
       .then((newCard) => {
         setInitialCards((state) => state.map((c) => c._id === card._id ? newCard : c))
       })
@@ -61,7 +61,7 @@ function App() {
   }
 
   function handleDislikeClick(card) {
-    api.dislikeCard(card._id)
+    Api.dislikeCard(card._id)
       .then((newCard) => {
         setInitialCards((state) => state.map(c => c._id === card._id ? newCard : c))
       })
@@ -75,7 +75,7 @@ function App() {
 
   function handleDeleteMesto(card) {
     setIsLoading(true)
-    api.deleteCard(card._id)
+    Api.deleteCard(card._id)
       .then(() => {
         setInitialCards((state) => state.filter(c => c._id !== (card._id)));
         closeAllPopups()
@@ -86,7 +86,7 @@ function App() {
 
   function handleProfileUpdate(info) {
     setIsLoading(true)
-    api.setUserInfo(info)
+    Api.setUserInfo(info)
       .then(userInfo => {
         setUser(userInfo);
         closeAllPopups()
@@ -97,7 +97,7 @@ function App() {
 
   function handleAvatarUpdate(info) {
     setIsLoading(true)
-    api.setUserAvatar(info)
+    Api.setUserAvatar(info)
       .then(avatar => {
         setUser(avatar);
         closeAllPopups()
@@ -108,7 +108,7 @@ function App() {
 
   function handleMestoAdd(data) {
     setIsLoading(true)
-    api.createMesto(data)
+    Api.createMesto(data)
       .then((card) => {
         setInitialCards([card, ...initialCards]);
         closeAllPopups()
